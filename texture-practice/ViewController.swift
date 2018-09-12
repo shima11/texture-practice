@@ -53,7 +53,8 @@ class RootNode: ASDisplayNode {
 
 }
 
-class ViewController: UIViewController {
+
+class ViewController1: UIViewController {
 
     override func viewDidLoad() {
 
@@ -65,6 +66,24 @@ class ViewController: UIViewController {
         node.frame.size = .init(width: view.bounds.width, height: 100)
         node.view.center = view.center
         view.addSubnode(node)
+    }
+}
+
+
+class ViewController2: UIViewController {
+
+    override func viewDidLoad() {
+
+        super.viewDidLoad()
+
+        view.backgroundColor = .white
+
+//        let node = RootNode()
+//        node.frame.size = .init(width: view.bounds.width, height: 100)
+//        node.view.center = view.center
+//        view.addSubnode(node)
+
+
     }
 }
 
