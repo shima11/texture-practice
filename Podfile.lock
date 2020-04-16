@@ -1,4 +1,11 @@
 PODS:
+  - EasyPeasy (1.9.0)
+  - RxCocoa (5.1.1):
+    - RxRelay (~> 5)
+    - RxSwift (~> 5)
+  - RxRelay (5.1.1):
+    - RxSwift (~> 5)
+  - RxSwift (5.1.1)
   - Texture/Core (2.8.1)
   - TextureBridging (1.2.1):
     - Texture/Core (~> 2.8.1)
@@ -6,12 +13,19 @@ PODS:
     - Texture/Core (~> 2.8)
 
 DEPENDENCIES:
+  - EasyPeasy
+  - RxCocoa
+  - RxSwift
   - "Texture/Core (from `git@github.com:TextureGroup/Texture`)"
   - TextureBridging
   - TextureSwiftSupport
 
 SPEC REPOS:
   trunk:
+    - EasyPeasy
+    - RxCocoa
+    - RxRelay
+    - RxSwift
     - TextureBridging
     - TextureSwiftSupport
 
@@ -25,10 +39,14 @@ CHECKOUT OPTIONS:
     :git: "git@github.com:TextureGroup/Texture"
 
 SPEC CHECKSUMS:
+  EasyPeasy: 19a84ef8f8bbcf925b9fecc29d1d78b7dab96718
+  RxCocoa: 32065309a38d29b5b0db858819b5bf9ef038b601
+  RxRelay: d77f7d771495f43c556cbc43eebd1bb54d01e8e9
+  RxSwift: 81470a2074fa8780320ea5fe4102807cb7118178
   Texture: 95cfad2ed5e7f06c32e34278c39d386568481f73
   TextureBridging: f354b8749042557480c3ece1be1489c02eb74a37
   TextureSwiftSupport: b0e99f51da478d32c32f7cb091deb907a7931bfe
 
-PODFILE CHECKSUM: 06bb651b7baf7e1bbc25c20e6fc49e06ab8ead19
+PODFILE CHECKSUM: f6b4e6102c33f54f100a2332d13be3f90f088ec9
 
 COCOAPODS: 1.8.4
