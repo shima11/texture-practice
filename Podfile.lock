@@ -1,43 +1,34 @@
 PODS:
-  - PINCache (3.0.1-beta.6):
-    - PINCache/Arc-exception-safe (= 3.0.1-beta.6)
-    - PINCache/Core (= 3.0.1-beta.6)
-  - PINCache/Arc-exception-safe (3.0.1-beta.6):
-    - PINCache/Core
-  - PINCache/Core (3.0.1-beta.6):
-    - PINOperation (~> 1.1.0)
-  - PINOperation (1.1.1)
-  - PINRemoteImage/Core (3.0.0-beta.13):
-    - PINOperation
-  - PINRemoteImage/iOS (3.0.0-beta.13):
-    - PINRemoteImage/Core
-  - PINRemoteImage/PINCache (3.0.0-beta.13):
-    - PINCache (= 3.0.1-beta.6)
-    - PINRemoteImage/Core
-  - Texture (2.7):
-    - Texture/PINRemoteImage (= 2.7)
-  - Texture/Core (2.7)
-  - Texture/PINRemoteImage (2.7):
-    - PINRemoteImage/iOS (= 3.0.0-beta.13)
-    - PINRemoteImage/PINCache
-    - Texture/Core
+  - Texture/Core (2.8.1)
+  - TextureBridging (1.2.1):
+    - Texture/Core (~> 2.8.1)
+  - TextureSwiftSupport (1.4.1):
+    - Texture/Core (~> 2.8)
 
 DEPENDENCIES:
-  - Texture
+  - "Texture/Core (from `git@github.com:TextureGroup/Texture`)"
+  - TextureBridging
+  - TextureSwiftSupport
 
 SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - PINCache
-    - PINOperation
-    - PINRemoteImage
-    - Texture
+  trunk:
+    - TextureBridging
+    - TextureSwiftSupport
+
+EXTERNAL SOURCES:
+  Texture:
+    :git: "git@github.com:TextureGroup/Texture"
+
+CHECKOUT OPTIONS:
+  Texture:
+    :commit: 65a65a6daf6ce5734be5a5f8cff04dd0ed82db08
+    :git: "git@github.com:TextureGroup/Texture"
 
 SPEC CHECKSUMS:
-  PINCache: d195fdba255283f7e9900a55e3cced377f431f9b
-  PINOperation: a6219e6fc9db9c269eb7a7b871ac193bcf400aac
-  PINRemoteImage: d6d51c5d2adda55f1ce30c96e850b6c4ebd2856a
-  Texture: 9d7e38965cf22ccd7cd9c249dd78b3f14e70ab6c
+  Texture: 95cfad2ed5e7f06c32e34278c39d386568481f73
+  TextureBridging: f354b8749042557480c3ece1be1489c02eb74a37
+  TextureSwiftSupport: b0e99f51da478d32c32f7cb091deb907a7931bfe
 
-PODFILE CHECKSUM: f744b627659f2778a7d513b93fc57a80716deb1a
+PODFILE CHECKSUM: 06bb651b7baf7e1bbc25c20e6fc49e06ab8ead19
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.8.4

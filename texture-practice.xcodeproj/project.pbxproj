@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,7 @@
 		D42334B720DF4C5E00C3E7F3 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D42334B520DF4C5E00C3E7F3 /* Main.storyboard */; };
 		D42334B920DF4C6000C3E7F3 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D42334B820DF4C6000C3E7F3 /* Assets.xcassets */; };
 		D42334BC20DF4C6000C3E7F3 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D42334BA20DF4C6000C3E7F3 /* LaunchScreen.storyboard */; };
+		D48128382448474000049448 /* ViewController2.swift in Sources */ = {isa = PBXBuildFile; fileRef = D48128372448474000049448 /* ViewController2.swift */; };
 		ED15684F2B783CC162E0CFF8 /* Pods_texture_practice.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8897A4C11456163AA2EED30D /* Pods_texture_practice.framework */; };
 /* End PBXBuildFile section */
 
@@ -26,6 +27,7 @@
 		D42334B820DF4C6000C3E7F3 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D42334BB20DF4C6000C3E7F3 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D42334BD20DF4C6000C3E7F3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D48128372448474000049448 /* ViewController2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController2.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 			children = (
 				D42334B120DF4C5E00C3E7F3 /* AppDelegate.swift */,
 				D42334B320DF4C5E00C3E7F3 /* ViewController.swift */,
+				D48128372448474000049448 /* ViewController2.swift */,
 				D42334B520DF4C5E00C3E7F3 /* Main.storyboard */,
 				D42334B820DF4C6000C3E7F3 /* Assets.xcassets */,
 				D42334BA20DF4C6000C3E7F3 /* LaunchScreen.storyboard */,
@@ -162,23 +165,16 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/PINCache/PINCache.framework",
-				"${BUILT_PRODUCTS_DIR}/PINOperation/PINOperation.framework",
-				"${BUILT_PRODUCTS_DIR}/PINRemoteImage/PINRemoteImage.framework",
-				"${BUILT_PRODUCTS_DIR}/Texture/AsyncDisplayKit.framework",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINCache.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINOperation.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PINRemoteImage.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AsyncDisplayKit.framework",
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		EC4BA00ED59DDBDC2C0149BE /* [CP] Check Pods Manifest.lock */ = {
@@ -208,6 +204,7 @@
 			files = (
 				D42334B420DF4C5E00C3E7F3 /* ViewController.swift in Sources */,
 				D42334B220DF4C5E00C3E7F3 /* AppDelegate.swift in Sources */,
+				D48128382448474000049448 /* ViewController2.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -361,7 +358,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shimaApps.texture-practice";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -380,7 +377,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "com.shimaApps.texture-practice";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 4.2;
+				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;

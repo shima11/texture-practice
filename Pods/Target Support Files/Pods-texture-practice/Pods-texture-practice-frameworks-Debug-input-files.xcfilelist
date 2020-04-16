@@ -1,0 +1,4 @@
+${PODS_ROOT}/Target Support Files/Pods-texture-practice/Pods-texture-practice-frameworks.sh
+${BUILT_PRODUCTS_DIR}/Texture/AsyncDisplayKit.framework
+${BUILT_PRODUCTS_DIR}/TextureBridging/TextureBridging.framework
+${BUILT_PRODUCTS_DIR}/TextureSwiftSupport/TextureSwiftSupport.framework

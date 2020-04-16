@@ -2,17 +2,9 @@
 //  ASCellNode.mm
 //  Texture
 //
-//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
-//  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
-//  grant of patent rights can be found in the PATENTS file in the same directory.
-//
-//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
-//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
+//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
+//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASCellNode+Internal.h>
@@ -25,10 +17,8 @@
 #import <AsyncDisplayKit/ASTableView+Undeprecated.h>
 #import <AsyncDisplayKit/_ASDisplayView.h>
 #import <AsyncDisplayKit/ASDisplayNode+Subclasses.h>
-#import <AsyncDisplayKit/ASDisplayNode+Beta.h>
 #import <AsyncDisplayKit/ASTextNode.h>
 #import <AsyncDisplayKit/ASCollectionNode.h>
-#import <AsyncDisplayKit/ASTableNode.h>
 
 #import <AsyncDisplayKit/ASViewController.h>
 #import <AsyncDisplayKit/ASInsetLayoutSpec.h>
@@ -43,10 +33,11 @@
   ASDisplayNodeDidLoadBlock _viewControllerDidLoadBlock;
   ASDisplayNode *_viewControllerNode;
   UIViewController *_viewController;
+  UICollectionViewLayoutAttributes *_layoutAttributes;
   BOOL _suspendInteractionDelegate;
   BOOL _selected;
   BOOL _highlighted;
-  UICollectionViewLayoutAttributes *_layoutAttributes;
+  BOOL _neverShowPlaceholders;
 }
 
 @end
@@ -209,6 +200,11 @@
   return _viewController;
 }
 
+- (id<ASRangeManagingNode>)owningNode
+{
+  return self.collectionElement.owningNode;
+}
+
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wobjc-missing-super-calls"
 
@@ -314,7 +310,7 @@
   // in which case it is not valid to perform a convertRect (this actually crashes on iOS 8).
   UIScrollView *scrollView = (_scrollView != nil && view.superview != nil && [view isDescendantOfView:_scrollView]) ? _scrollView : nil;
   if (scrollView) {
-    cellFrame = [view convertRect:view.bounds toView:_scrollView];
+    cellFrame = [view convertRect:view.bounds toView:scrollView];
   }
   
   // If we did not convert, we'll pass along CGRectZero and a nil scrollView.  The EventInvisible call is thus equivalent to
@@ -331,7 +327,7 @@
   
   UIScrollView *scrollView = self.scrollView;
   
-  ASDisplayNode *owningNode = scrollView.asyncdisplaykit_node;
+  id<ASRangeManagingNode> owningNode = self.owningNode;
   if ([owningNode isKindOfClass:[ASCollectionNode class]]) {
     NSIndexPath *ip = [(ASCollectionNode *)owningNode indexPathForNode:self];
     if (ip != nil) {

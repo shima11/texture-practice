@@ -2,27 +2,17 @@
 //  ASViewController.mm
 //  Texture
 //
-//  Copyright (c) 2014-present, Facebook, Inc.  All rights reserved.
-//  This source code is licensed under the BSD-style license found in the
-//  LICENSE file in the /ASDK-Licenses directory of this source tree. An additional
-//  grant of patent rights can be found in the PATENTS file in the same directory.
-//
-//  Modifications to this file made after 4/13/2017 are: Copyright (c) 2017-present,
-//  Pinterest, Inc.  Licensed under the Apache License, Version 2.0 (the "License");
-//  you may not use this file except in compliance with the License.
-//  You may obtain a copy of the License at
-//
-//      http://www.apache.org/licenses/LICENSE-2.0
+//  Copyright (c) Facebook, Inc. and its affiliates.  All rights reserved.
+//  Changes after 4/13/2017 are: Copyright (c) Pinterest, Inc.  All rights reserved.
+//  Licensed under Apache 2.0: http://www.apache.org/licenses/LICENSE-2.0
 //
 
 #import <AsyncDisplayKit/ASViewController.h>
-#import <AsyncDisplayKit/ASAssert.h>
 #import <AsyncDisplayKit/ASDisplayNode+FrameworkPrivate.h>
-#import <AsyncDisplayKit/ASLayout.h>
 #import <AsyncDisplayKit/ASLog.h>
-#import <AsyncDisplayKit/ASTraitCollection.h>
 #import <AsyncDisplayKit/ASRangeControllerUpdateRangeProtocol+Beta.h>
 #import <AsyncDisplayKit/ASInternalHelpers.h>
+#import <AsyncDisplayKit/ASConfigurationInternal.h>
 
 @implementation ASViewController
 {
@@ -34,6 +24,9 @@
   BOOL _nodeConformsToRangeModeProtocol;
   UIEdgeInsets _fallbackAdditionalSafeAreaInsets;
 }
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wobjc-designated-initializers"
 
 - (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -57,6 +50,8 @@
   return self;
 }
 
+#pragma clang diagnostic pop
+
 - (instancetype)initWithNode:(ASDisplayNode *)node
 {
   if (!(self = [super initWithNibName:nil bundle:nil])) {
@@ -64,6 +59,17 @@
   }
   
   _node = node;
+  [self _initializeInstance];
+
+  return self;
+}
+
+- (instancetype)init
+{
+  if (!(self = [super initWithNibName:nil bundle:nil])) {
+    return nil;
+  }
+
   [self _initializeInstance];
 
   return self;
@@ -101,6 +107,9 @@
 
 - (void)dealloc
 {
+  if (ASActivateExperimentalFeature(ASExperimentalOOMBackgroundDeallocDisable)) {
+    return;
+  }
   ASPerformBackgroundDeallocation(&_node);
 }
 
@@ -185,7 +194,7 @@ ASVisibilityDidMoveToParentViewController;
 - (void)viewWillAppear:(BOOL)animated
 {
   as_activity_create_for_scope("ASViewController will appear");
-  as_log_debug(ASNodeLog(), "View controller %@ will appear", self);
+  os_log_debug(ASNodeLog(), "View controller %@ will appear", self);
 
   [super viewWillAppear:animated];
 
@@ -323,13 +332,8 @@ ASVisibilityDepthImplementation;
   
   if (ASPrimitiveTraitCollectionIsEqualToASPrimitiveTraitCollection(traitCollection, oldTraitCollection) == NO) {
     as_activity_scope_verbose(as_activity_create("Propagate ASViewController trait collection", AS_ACTIVITY_CURRENT, OS_ACTIVITY_FLAG_DEFAULT));
-    as_log_debug(ASNodeLog(), "Propagating new traits for %@: %@", self, NSStringFromASPrimitiveTraitCollection(traitCollection));
-    self.node.primitiveTraitCollection = traitCollection;
-    
-    NSArray<id<ASLayoutElement>> *children = [self.node sublayoutElements];
-    for (id<ASLayoutElement> child in children) {
-      ASTraitCollectionPropagateDown(child, traitCollection);
-    }
+    os_log_debug(ASNodeLog(), "Propagating new traits for %@: %@", self, NSStringFromASPrimitiveTraitCollection(traitCollection));
+    ASTraitCollectionPropagateDown(self.node, traitCollection);
     
     // Once we've propagated all the traits, layout this node.
     // Remeasure the node with the latest constrained size – old constrained size may be incorrect.
@@ -347,6 +351,8 @@ ASVisibilityDepthImplementation;
   [self propagateNewTraitCollection:traitCollection];
 }
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-implementations"
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
 {
   [super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
@@ -355,5 +361,6 @@ ASVisibilityDepthImplementation;
   traitCollection.containerSize = self.view.bounds.size;
   [self propagateNewTraitCollection:traitCollection];
 }
+#pragma clang diagnostic pop
 
 @end
