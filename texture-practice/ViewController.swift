@@ -17,38 +17,110 @@ import TextureSwiftSupport
 
 class ViewController1: UIViewController {
 
-    let transitionView = NodeView(node: TransitionNode())
-    
-    let button = NodeView(node: ASButtonNode())
-    
+    let bodyView = NodeView.init(node: BodyNode())
     override func viewDidLoad() {
 
         super.viewDidLoad()
 
         view.backgroundColor = .white
+        
+        view.addSubview(bodyView)
+        
+        bodyView.easy.layout(Edges())
+    }
+    
+}
 
-        view.addSubview(transitionView)
-        view.addSubview(button)
-        
-        button.node.setTitle("Toggle", with: nil, with: .black, for: .normal)
-        
-        transitionView.easy.layout(Edges())
 
-        button.easy.layout(
-            CenterX(),
-            Bottom(60)
-        )
+class BodyNode: ASDisplayNode {
+
+    let scrollNode = ASScrollNode()
+    
+    let contentNode = ASDisplayNode()
+    
+    let transitionNode = TransitionNode()
+    
+    let button = ASButtonNode()
+    
+    var bottomHeight: CGFloat = 100 {
+        didSet {
+            bottomSpacer.style.height = .init(unit: .points, value: bottomHeight)
+        }
+    }
+    
+    let bottomSpacer = ASDisplayNode()
+
+    override init() {
+        super.init()
         
-        button.node.addTarget(self, action: #selector(didTapButton), forControlEvents: .touchUpInside)
         
+        automaticallyManagesSubnodes = true
+        
+        scrollNode.automaticallyManagesSubnodes = true
+        scrollNode.automaticallyManagesContentSize = true
+        
+        scrollNode.view.alwaysBounceVertical = true
+        
+        bottomSpacer.style.height = .init(unit: .points, value: bottomHeight)
+        
+        button.setTitle("Toggle", with: nil, with: .black, for: .normal)
+        
+        button.addTarget(self, action: #selector(didTapButton), forControlEvents: .touchUpInside)
+        
+        contentNode.automaticallyManagesSubnodes = true
+        
+//        contentNode.layoutSpecBlock = { _, _ in
+//            LayoutSpec {
+//                VStackLayout {
+//                    VSpacerLayout()
+//                    self.transitionNode
+//                    self.bottomSpacer
+//                }
+//            }
+//        }
+        
+        scrollNode.layoutSpecBlock = { _, _ in
+//            LayoutSpec {
+//                self.contentNode
+//            }
+            LayoutSpec {
+                VStackLayout {
+                    VSpacerLayout()
+                    self.transitionNode
+                    self.bottomSpacer
+                }
+            }
+
+        }
     }
     
     @objc func didTapButton() {
         
-        transitionView.node.isOpen.toggle()
-        transitionView.node.transitionLayout(withAnimation: true, shouldMeasureAsync: false, measurementCompletion: nil)
+        transitionNode.isOpen.toggle()
+        bottomHeight = transitionNode.isOpen ? 300 : 100
+
+        contentNode.setNeedsLayout()
+        scrollNode.setNeedsLayout()
+
+//        scrollNode.transitionLayout(withAnimation: true, shouldMeasureAsync: false, measurementCompletion: nil)
+        
+        transitionNode.transitionLayout(withAnimation: true, shouldMeasureAsync: false, measurementCompletion: nil)
     }
 
+    
+    override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+        LayoutSpec {
+            ZStackLayout {
+                scrollNode
+                
+                VStackLayout {
+                    VSpacerLayout()
+                    button
+                    VSpacerLayout()
+                }
+            }
+        }
+    }
 }
 
 
