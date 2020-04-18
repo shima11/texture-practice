@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 51;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -67,7 +67,10 @@
 				42C64707D29A4D2E8925B412 /* Pods */,
 				402FD2A6956843E7CC0F61D3 /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 0;
 		};
 		D42334AF20DF4C5E00C3E7F3 /* Products */ = {
 			isa = PBXGroup;
@@ -129,7 +132,7 @@
 				};
 			};
 			buildConfigurationList = D42334A920DF4C5E00C3E7F3 /* Build configuration list for PBXProject "texture-practice" */;
-			compatibilityVersion = "Xcode 9.3";
+			compatibilityVersion = "Xcode 11.4";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
