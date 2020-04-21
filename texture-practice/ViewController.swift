@@ -15,34 +15,161 @@ import AsyncDisplayKit
 import TextureBridging
 import TextureSwiftSupport
 
+
+// TODO: ボタンのテキストとサイズが変更するときのなめらかなアニメーションの実装
+// GlossButtonNodeみたいにいくつかのレイヤーに分かれているNodeのアニメーション
+
+
 class ViewController1: UIViewController {
   
   let bodyView = NodeView.init(node: BodyNode())
+
+  var flag = false
+  var flag2 = false
+
+  let button = UIButton()
+  let buttonNode = NodeView.init(node: AnimationButton())
+  
   override func viewDidLoad() {
     
     super.viewDidLoad()
     
     view.backgroundColor = .white
     
-    view.addSubview(bodyView)
+    button.backgroundColor = .white
+    button.layer.cornerRadius = 8
+    button.clipsToBounds = true
+    button.setTitleColor(.black, for: .normal)
     
+    buttonNode.node.backgroundColor = .white
+    buttonNode.node.cornerRadius = 8
+    buttonNode.node.clipsToBounds = true
+    
+    view.addSubview(bodyView)
+    view.addSubview(button)
+    view.addSubview(buttonNode)
+        
     bodyView.easy.layout(Edges())
+    button.easy.layout(
+      CenterX(),
+      Bottom(60)
+    )
+    buttonNode.easy.layout(
+      CenterX(),
+      Bottom(120)
+    )
+
+    button.setTitle("uibutton", for: .normal)
+
+    button.rx.tap.bind { _ in
+
+      self.flag.toggle()
+            
+      UIView.animate(withDuration: 0.3, delay: 0, options: [.transitionFlipFromBottom], animations: {
+        self.button.setTitle(self.flag ? "uibutton uibutton" : "uibutton", for: .normal)
+        self.button.layoutIfNeeded()
+      })
+    }
+    
+    buttonNode.node.setTitle(text: "node", animated: true)
+    buttonNode.node.addTarget(self, action: #selector(didTapButton), forControlEvents: .touchUpInside)
+    
   }
+  
+  @objc func didTapButton() {
+    
+    self.flag2.toggle()
+    
+    self.buttonNode.node.setTitle(text: self.flag2 ? "node node" : "node", animated: true)
+    
+//    UIView.animate(withDuration: 1, animations: {
+////      self.buttonNode.node.setTitle(self.flag2 ? "node node" : "node", with: nil, with: .black, for: .normal)
+//      self.buttonNode.layoutIfNeeded()
+//    })
+
+  }
+
 }
 
+
+class AnimationButton: ASControlNode {
+    
+  let titleNode = ASTextNode()
+  let backgroundNode = ASDisplayNode()
+  
+  override init() {
+    super.init()
+    
+    backgroundNode.backgroundColor = .white
+    backgroundNode.cornerRadius = 8
+    backgroundNode.clipsToBounds = true
+        
+    automaticallyManagesSubnodes = true
+  }
+  
+  func setTitle(text: String, animated: Bool) {
+        
+    print("hoge:pre:", frame, titleNode.frame, backgroundNode.frame)
+    
+//    let fadeTransition = CATransition()
+//    fadeTransition.duration = 1
+//    fadeTransition.type = .reveal
+//
+//    CATransaction.begin()
+//    CATransaction.setAnimationDuration(1)
+//    self.titleNode.attributedText = NSAttributedString(string: text)
+////    self.layoutIfNeeded()
+////    self.layer.add(.init(), forKey: kCATransition)
+//    CATransaction.commit()
+
+
+//    let cornerAnimation = CABasicAnimation(keyPath: #keyPath(CALayer.cornerRadius))
+//    cornerAnimation.fromValue = oldValue
+//    cornerAnimation.toValue = newValue
+//    cornerAnimation.duration = 1.0
+//
+//    styledButton.layer.cornerRadius = newValue
+//    styledButton.layer.add(cornerAnimation, forKey: #keyPath(CALayer.cornerRadius))
+    
+    self.titleNode.attributedText = NSAttributedString(string: text)
+
+
+    UIView.animate(withDuration: 1, delay: 0, options: [.transitionCrossDissolve], animations: {
+//      self.titleNode.attributedText = NSAttributedString(string: text)
+      self.layoutIfNeeded()
+    }, completion: { completed in
+      print("hoge:comp:", self.frame, self.titleNode.frame, self.backgroundNode.frame)
+    })
+        
+  }
+  
+  override func didEnterDisplayState() {
+    super.didEnterDisplayState()
+    
+  }
+  
+  override func layoutSpecThatFits(_ constrainedSize: ASSizeRange) -> ASLayoutSpec {
+    LayoutSpec {
+      CenterLayout {
+        titleNode.padding(.init(16)).background(backgroundNode)
+
+      }
+    }
+  }
+}
 
 class BodyNode: ASDisplayNode {
   
   let transitionNode = TransitionNode()
   
-  let button = ASButtonNode()
+  let button = AnimationButton()
   
   override init() {
     super.init()
     
     automaticallyManagesSubnodes = true
     
-    button.setTitle("Toggle", with: nil, with: .black, for: .normal)
+    button.setTitle(text: "Toggle", animated: true)
     
     button.addTarget(self, action: #selector(didTapButton), forControlEvents: .touchUpInside)
     
@@ -52,6 +179,7 @@ class BodyNode: ASDisplayNode {
     
     transitionNode.isOpen.toggle()
 
+    button.setTitle(text: transitionNode.isOpen ? "Toggle" : "Toggle (let's open)", animated: true)
     transitionNode.transitionLayout(withAnimation: true, shouldMeasureAsync: false, measurementCompletion: nil)
   }
   
@@ -64,7 +192,11 @@ class BodyNode: ASDisplayNode {
         
         VStackLayout {
           VSpacerLayout()
-          button
+          HStackLayout {
+            HSpacerLayout()
+            button.padding(.init(16))
+            HSpacerLayout()
+          }
           VSpacerLayout()
         }
       }
